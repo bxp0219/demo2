@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            vertical-align: top;
+        }
+
+        .main {
+            margin: 0 auto;
+            width: 1000px;
+            margin-top: 10px;
+
+        }
+
+        .fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="top" id="topPart">
+    <img src="images/top.png" alt=""/>
+</div>
+<div id="navBar">
+    <img src="images/nav.png" alt=""/>
+</div>
+<div class="main" id="mainPart">
+    <img src="images/main.png" alt=""/>
+</div>
+<script>
+    //窗体滚动的时候获取页面被卷去的头部 也就是我们封装的scroll().top
+    //用scroll().top的数值 和 topPart的高度比较
+    //如果 被卷去的头部 > 顶部部分的高度 就把navBar变为固定定位
+    //找人
+    var topPart = document.getElementById("topPart");//顶部部分
+    var navBar = document.getElementById("navBar");//导航部分
+    var mainPart = document.getElementById("mainPart");//主体部分
+    window.onscroll = function () {
+        if (scroll().top > topPart.offsetHeight) {
+            //这时候就要把导航栏变为固定定位
+            //navBar.style.position = "fixed";
+            navBar.className = "fixed";
+            //还有个小问题 导航栏变成固定定位的一瞬间会脱标 下面的盒子会掉上来
+            //所以我们可以给下面的盒子加一个paddingTop
+            mainPart.style.paddingTop = navBar.offsetHeight + "px";
+        } else {
+            navBar.className = "";
+            //回来后 还得把加上的paddingTop去掉
+            mainPart.style.paddingTop = 0;
+        }
+    };
+
+    function scroll() {
+        return {
+            top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
+            left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0
+        };
+    }
+</script>
+</body>
+</html>
